@@ -9,11 +9,13 @@ import org.testng.annotations.Test;
 
 public class LoginTest extends TestBase {
 
+    LoginPage loginPage;
+    DashboardPage dashboardPage;
 
     @Test
     public void loginTestWithCR(){
-        LoginPage loginPage=new LoginPage();
-        DashboardPage dashboardPage=new DashboardPage();
+        loginPage=new LoginPage();
+        dashboardPage=new DashboardPage();
 
         loginPage.emailInputBox.sendKeys(ConfigurationReader.get("userEmail"));
         loginPage.passwordInputBox.sendKeys(ConfigurationReader.get("password"));
@@ -28,8 +30,8 @@ public class LoginTest extends TestBase {
 
     @Test
     public void loginTestWithCR_2(){
-        LoginPage loginPage=new LoginPage();
-        DashboardPage dashboardPage=new DashboardPage();
+        loginPage=new LoginPage();
+        dashboardPage=new DashboardPage();
 
         loginPage.loginMtd();
 
@@ -41,14 +43,42 @@ public class LoginTest extends TestBase {
 
     @Test
     public void loginWithCredentials(){
-        LoginPage loginPage=new LoginPage();
-        DashboardPage dashboardPage=new DashboardPage();
+        loginPage=new LoginPage();
+        dashboardPage=new DashboardPage();
 
-        loginPage.loginWithCredentialsMtd("sgezer@gmail.com","12345678");
+        loginPage.loginWithCredentialsMtd("sgezer@gmail.com","sg12345678");
 
         String actualUserJob = dashboardPage.userJob.getText();
         String expectedUserJob=ConfigurationReader.get("userJob");
 
         Assert.assertEquals(actualUserJob,expectedUserJob,"FAIL");
     }
+
+    @Test
+    public void testAlerts() {
+        loginPage=new LoginPage();
+        dashboardPage=new DashboardPage();
+
+        loginPage.loginMtd();
+        String actualUserName = dashboardPage.userName.getText();
+        String expectedUserName=ConfigurationReader.get("userName");
+
+        Assert.assertEquals(actualUserName,expectedUserName,"FAIL");
+
+        dashboardPage.navigateTabAndModule("JavaScript","Alerts");
+    }
+    @Test
+    public void testTabs() {
+        loginPage=new LoginPage();
+        dashboardPage=new DashboardPage();
+
+        loginPage.loginMtd();
+        String actualUserName = dashboardPage.userName.getText();
+        String expectedUserName=ConfigurationReader.get("userName");
+
+        Assert.assertEquals(actualUserName,expectedUserName,"FAIL");
+
+        dashboardPage.navigateTabAndModule("Developers");
+    }
+
 }

@@ -112,4 +112,31 @@ public class ActionClass {
                 .sendKeys(faker.internet().password() + Keys.TAB).perform();
 
     }
+
+    @Test
+    public void jsTestEmre() throws InterruptedException {
+        driver.get("https://www.krafttechexlab.com/forms/elements");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        js.executeScript("window.scrollBy(0,700)");
+
+        Thread.sleep(3000);
+        WebElement disabledRange = driver.findElement(By.id("disabledRange"));
+        js.executeScript("arguments[0].setAttribute('min', '5')", disabledRange);
+        Thread.sleep(3000);
+
+
+
+       // WebElement disableCheckBox = driver.findElement(By.id("gridCheck4"));
+
+//        js.executeScript("arguments[0].disabled = false", disableCheckBox);
+//        js.executeScript("arguments[0].click()", disableCheckBox);
+//
+//        js.executeScript("arguments[0].disabled = false", disableCheckBox);
+//        js.executeScript("arguments[0].checked = true", disableCheckBox);
+
+      //  js.executeScript("document.getElementById('gridCheck4').setAttribute('checked', '');");
+
+
+    }
 }

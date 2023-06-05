@@ -12,6 +12,21 @@ public class AddEducationPage extends BasePage {
     @FindBy(xpath = "//li//button[text()='Add Education']")
     public WebElement addEducationPageSubTitle;
 
+    @FindBy(xpath = "//label[text()='School or Bootcamp *']")
+    public WebElement schoolOrBootCamp;
+
+    @FindBy(xpath = "//label[text()='Degree or Certificate *']")
+    public WebElement degreeOrCertificate;
+
+    @FindBy(css = "input#degree")
+    public WebElement degreOrCertificateInputBox;
+
+    @FindBy(xpath = "//label[text()='Study ']")
+    public WebElement study;
+
+    @FindBy(xpath = "//div/button[text()='Add Education']")
+    public WebElement addEducationBtn;
+
     public void addEducationMtd(String school, String degreeOrCertificate, String study, String fromDate, String toDate, String programDescription) {
         Actions actions = new Actions(Driver.get());
 

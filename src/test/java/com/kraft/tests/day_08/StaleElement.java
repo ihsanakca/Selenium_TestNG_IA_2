@@ -18,7 +18,7 @@ public class StaleElement {
     @BeforeMethod
     public void setUp() {
         driver = WebDriverFactory.getDriver("chrome");
-     //  driver= Driver.get();
+        //driver = Driver.get();
         driver.manage().window().setPosition(new Point(-1000, 0));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -27,9 +27,8 @@ public class StaleElement {
     @AfterMethod
     public void tearDown() {
         driver.quit();
-       // Driver.closeDriver();
+        // Driver.closeDriver();
     }
-
 
 
     @Test
@@ -48,12 +47,16 @@ public class StaleElement {
         driver.get("https://www.amazon.com/");
         Thread.sleep(2000);
         WebElement keyboards = driver.findElement(By.xpath("//span[text()='Keyboards']"));
-        System.out.println("keyboards.getText() = " + keyboards.getText());
         keyboards.click();
         driver.navigate().back();
         Thread.sleep(2000);
-        WebElement keyboards2 = driver.findElement(By.xpath("//span[text()='Keyboards']"));
-        System.out.println("keyboards.getText() = " + keyboards2.getText());
+
+        try {
+            System.out.println(keyboards.getText());
+        } catch (StaleElementReferenceException e) {
+            keyboards = driver.findElement(By.xpath("//span[text()='Keyboards']"));
+            System.out.println(keyboards.getText());
+        }
     }
 
     @Test
@@ -61,29 +64,28 @@ public class StaleElement {
         driver.get("https://www.hepsiburada.com/ara?q=laptop");
         driver.findElement(By.id("onetrust-accept-btn-handler")).click();
 
-        JavascriptExecutor js= (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
         js.executeScript("window.scrollBy(0,500)");
 
         WebElement laptop = driver.findElement(By.xpath("//h3[text()=' Abra A5 V17.2.3 Intel Core i5-11400H 16GB " +
                 "RAM 500GB SSD 4GB RTX3050Ti FreeDOS 15.6\" FHD 144Hz Oyun Bilgisayarı']"));
 
-        Actions actions=new Actions(driver);
+        Actions actions = new Actions(driver);
         actions.moveToElement(laptop).perform();
 
         WebElement sepeteEkle = driver.findElement(By.xpath("(//button[@kind='primary'])[2]"));
         sepeteEkle.click();
-
     }
 
     @Test
     public void explicitlyWait() throws InterruptedException {
-    driver.get("https://testpages.herokuapp.com/styled/dynamic-buttons-disabled.html");
-       // Thread.sleep(2000);
+        driver.get("https://testpages.herokuapp.com/styled/dynamic-buttons-disabled.html");
+        // Thread.sleep(2000);
 
-        WebDriverWait wait=new WebDriverWait(driver,10);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        WebElement strBtn=driver.findElement(By.id("button00"));
+        WebElement strBtn = driver.findElement(By.id("button00"));
         wait.until(ExpectedConditions.visibilityOf(strBtn));
 
         List<WebElement> buttons = driver.findElements(By.xpath("//button"));

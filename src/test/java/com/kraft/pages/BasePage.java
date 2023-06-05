@@ -17,15 +17,27 @@ public abstract class BasePage {
     @FindBy(xpath = "//ul[@class='d-flex align-items-center']/li")
     public List<WebElement> tabNames;
 
+    @FindBy(xpath = "//span[text()='Login']")
+    public WebElement loginBtn;
+
     public void navigateTabAndModule(String tabName){
         WebElement tab = Driver.get().findElement(By.xpath("//span[text()='"+tabName+"']"));
         tab.click();
     }
-    public void navigateTabAndModule(String tabName,String moduleName){
-        WebElement tab = Driver.get().findElement(By.xpath("//span[text()='"+tabName+"']"));
+    public void navigateTabAndModule(String tabName,String moduleName) {
+        WebElement tab = Driver.get().findElement(By.xpath("//span[text()='" + tabName + "']"));
         tab.click();
-        WebElement module=Driver.get().findElement(By.xpath("//span[text()='"+moduleName+"']"));
-        BrowserUtils.clickWithJS(module);
+        if (tabName.equals("JavaScript") && moduleName.equals("Alerts")) {
+            WebElement module = Driver.get().findElement(By.xpath("(//span[text()='Alerts'])[2]"));
+            BrowserUtils.clickWithJS(module);
+        } else {
+            WebElement module = Driver.get().findElement(By.xpath("//span[text()='" + moduleName + "']"));
+            BrowserUtils.clickWithJS(module);
+        }
     }
 
+    public void logoutAndNavigateToLoginPage(String userName){
+        navigateTabAndModule(userName,"Sign Out");
+        loginBtn.click();
+    }
 }
